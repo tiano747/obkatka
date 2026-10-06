@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Обкатка Focus 1.6</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Обкатка">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0c1113">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEaElEQVR42u3dTWoUQRgG4EmTpRsRQbLJZjCIB3CTO+QWHsYjeAvvIHgEicwmm+ApxMVgGMxk6J6un6+qnncVEGFm+vGtr9rqycWr1282Iscy+QgEDoFD4BA4BA6BQ+AQOAQOgUMEDoFD4BA4BA6BQ+AQOAQOgUPkXy7HfNu/v35Y+lfeff452qd0McKjCWdQwKVnHJlADAWlNxyFTfStpBMc1U10qaR5HAFZdEOkVRzBTfShpD0czbFol8hEhtfffHO0zqLFCmkAR2csNpvNpy9/9j887O4tK2Qcz/X2RnNgcaQ2DhOzQiYyVEhLzVFGxqKRMNVLOlobYfsjFo6sLBJuEM57nadlBCQSCEcOGQV2jPNf9kwccXxEwZFWRpW7CKffwnwZcXyEwJFQRvWbSy+9l6U4IviojyOVjFD3HP97U2fIiOCjMo4kMsLeit6/u7NlVPdRE8d6GU38D8X6exi1fFTDsVJGc8cjVhKp4mMio0xWXt0qt1ArNMcaGR0czFxzmQv3x0RGQxVSuD+aOQnW05H/4Mc46iwr59VGxw+WndcExWxNZDRXIcUWl4kMPtqbOcZ5qj3sCFICh+87yOGjQHlMZPDR/FZWeltW1MZL+bXbxS+PWM0xlIxUPprEsbQ2BuyMJD7ylccURMYgLJ5rOOojyOISZVnpvjZOIHj+R0EWlyw4LChL62G9jxzlYStbX8Zms3m/3Q63lVUba2RUX1zSf4OxUXS+jLSFcb29Seup8tdb91obqZaSh919xQfwEy8raqPukJFWUs2Zo8vaSC6j4uRht2Jj8mJSniFdtKb0VxtZx89F60Wqsrn0z11hxFpWeqqNMjLafhxyzH1KzM5ItWexrPQj48fHt08/X6Vomgo4+lhTyss4ekPsEETyaI4mCyOricQ4xhk46sqYb+Lx7vbq2/cmdytk2Mp2NXBEkLG+DDSHzjCQZr72Txe78LEMOBqohJnnwnuVkWZZaXersv6xgMgyHu9uW5o5Qk2jjcooOZMOOpD23RlmjmoyRmBhK0sGHKkXFDhE4BA4BA6BQ+AQOIpmzY2KoW5yaA6BI0UBjFYb4zbH0is9oIzSOEKd/Jh/vUPJWH9KoyiOds8Mz7nq7XbG+pMfox8T3F/702dIh40DxhwYSCU+Dt8o18o0qjkkP44xf/FW31sVzSHBcBg7mhg4NIcUwWHs6GzgqNYcVpb4a4plRUrhWLSyKI9MtZHwSWvNISFxKI+w00YWHPYsfexTQiwryiNsbWTBoTz6qI36zUGSgZSM88ug8BfTHiblr/GaP0xgkXz+yGGo9BlSLNa0SOH5NFdzPC8PLPJVSKalJyOOQx9k5COSbyjJvqxgkXXjmnWhydscYisrcAgcInAIHAKHwCFwCBwCh8AhcAgcAocIHAKHwCFwCBwCh8AhcAgcAocIHAKHwCFwCBwCh8AhcAgcAocIHAKHwCFwCBwCh8AhcAgcAofA4SMQOAQOgUPgEDgEDoFD4BA4ZNj8BSO5yaacUm7EAAAAAElFTkSuQmCC"><link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEaElEQVR42u3dTWoUQRgG4EmTpRsRQbLJZjCIB3CTO+QWHsYjeAvvIHgEicwmm+ApxMVgGMxk6J6un6+qnncVEGFm+vGtr9rqycWr1282Iscy+QgEDoFD4BA4BA6BQ+AQOAQOgUMEDoFD4BA4BA6BQ+AQOAQOgUPkXy7HfNu/v35Y+lfeff452qd0McKjCWdQwKVnHJlADAWlNxyFTfStpBMc1U10qaR5HAFZdEOkVRzBTfShpD0czbFol8hEhtfffHO0zqLFCmkAR2csNpvNpy9/9j887O4tK2Qcz/X2RnNgcaQ2DhOzQiYyVEhLzVFGxqKRMNVLOlobYfsjFo6sLBJuEM57nadlBCQSCEcOGQV2jPNf9kwccXxEwZFWRpW7CKffwnwZcXyEwJFQRvWbSy+9l6U4IviojyOVjFD3HP97U2fIiOCjMo4kMsLeit6/u7NlVPdRE8d6GU38D8X6exi1fFTDsVJGc8cjVhKp4mMio0xWXt0qt1ArNMcaGR0czFxzmQv3x0RGQxVSuD+aOQnW05H/4Mc46iwr59VGxw+WndcExWxNZDRXIcUWl4kMPtqbOcZ5qj3sCFICh+87yOGjQHlMZPDR/FZWeltW1MZL+bXbxS+PWM0xlIxUPprEsbQ2BuyMJD7ylccURMYgLJ5rOOojyOISZVnpvjZOIHj+R0EWlyw4LChL62G9jxzlYStbX8Zms3m/3Q63lVUba2RUX1zSf4OxUXS+jLSFcb29Seup8tdb91obqZaSh919xQfwEy8raqPukJFWUs2Zo8vaSC6j4uRht2Jj8mJSniFdtKb0VxtZx89F60Wqsrn0z11hxFpWeqqNMjLafhxyzH1KzM5ItWexrPQj48fHt08/X6Vomgo4+lhTyss4ekPsEETyaI4mCyOricQ4xhk46sqYb+Lx7vbq2/cmdytk2Mp2NXBEkLG+DDSHzjCQZr72Txe78LEMOBqohJnnwnuVkWZZaXersv6xgMgyHu9uW5o5Qk2jjcooOZMOOpD23RlmjmoyRmBhK0sGHKkXFDhE4BA4BA6BQ+AQOIpmzY2KoW5yaA6BI0UBjFYb4zbH0is9oIzSOEKd/Jh/vUPJWH9KoyiOds8Mz7nq7XbG+pMfox8T3F/702dIh40DxhwYSCU+Dt8o18o0qjkkP44xf/FW31sVzSHBcBg7mhg4NIcUwWHs6GzgqNYcVpb4a4plRUrhWLSyKI9MtZHwSWvNISFxKI+w00YWHPYsfexTQiwryiNsbWTBoTz6qI36zUGSgZSM88ug8BfTHiblr/GaP0xgkXz+yGGo9BlSLNa0SOH5NFdzPC8PLPJVSKalJyOOQx9k5COSbyjJvqxgkXXjmnWhydscYisrcAgcInAIHAKHwCFwCBwCh8AhcAgcAocIHAKHwCFwCBwCh8AhcAgcAocIHAKHwCFwCBwCh8AhcAgcAocIHAKHwCFwCBwCh8AhcAgcAofA4SMQOAQOgUPgEDgEDoFD4BA4ZNj8BSO5yaacUm7EAAAAAElFTkSuQmCC">
+<style>
+html{-webkit-text-size-adjust:100%}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+[hidden]{display:none!important}
+</style>
+
+<style>
+/* Layout: portrait (iPhone) — one column like an instrument cluster: mode panel, big countdown, controls under the thumb, timeline and log below.
+   Landscape (Teyes CC3L 1280x720) — mode panel left, next step + controls right. */
+:root{
+  --bg:#eef1f0; --panel:#ffffff; --panel2:#e3e8e7; --line:#cbd4d3; --fg:#11181b; --muted:#55646a;
+  --calm:#0f7f6e; --vary:#2a66ae; --load:#a95f00; --brake:#7044bf; --stop:#bd301e; --check:#3a454b; --crank:#a95f00; --pause:#66757b;
+  --on:#ffffff; --red:#bd301e;
+  /* system faces only: works offline and without access to font hosts */
+  --f-disp:-apple-system,"SF Pro Display","Roboto Condensed",Roboto,"Segoe UI",system-ui,sans-serif;
+  --f-body:-apple-system,"SF Pro Text",Roboto,"Segoe UI",system-ui,sans-serif;
+  --f-num:-apple-system,"SF Pro Display",Roboto,"Segoe UI",system-ui,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c1113; --panel:#141b1e; --panel2:#1c2529; --line:#2a353a; --fg:#e6edef; --muted:#8d9da4;
+    --calm:#3cc0ad; --vary:#62a8f2; --load:#f4ab3c; --brake:#b796f6; --stop:#f2604f; --check:#c9d2d6; --crank:#f4ab3c; --pause:#8d9da4;
+    --on:#0c1113; --red:#f2604f; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c1113; --panel:#141b1e; --panel2:#1c2529; --line:#2a353a; --fg:#e6edef; --muted:#8d9da4;
+  --calm:#3cc0ad; --vary:#62a8f2; --load:#f4ab3c; --brake:#b796f6; --stop:#f2604f; --check:#c9d2d6; --crank:#f4ab3c; --pause:#8d9da4;
+  --on:#0c1113; --red:#f2604f; color-scheme:dark;
+}
+.m-calm{--m:var(--calm)} .m-vary{--m:var(--vary)} .m-load{--m:var(--load)} .m-brake{--m:var(--brake)}
+.m-stop{--m:var(--stop)} .m-check{--m:var(--check)} .m-crank{--m:var(--crank)} .m-pause{--m:var(--pause)}
+
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.45;padding-inline:16px;padding-block:0 32px}
+button{font:inherit;color:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid var(--vary);outline-offset:2px}
+.wrap{max-width:560px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-disp);text-wrap:balance;margin:0}
+h2{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:28px 0 10px}
+.num,.clock,.jamclock,.tv,.rd,.od,.lt,.nn,.sd,.pt,.chip,.sub,.nums,.donebox dd{font-variant-numeric:tabular-nums}
+.num{font-family:var(--f-num)}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;align-items:center;gap:8px;padding-block:10px;flex-wrap:wrap}
+.brand{font-family:var(--f-disp);font-weight:700;font-size:17px;margin-right:auto;letter-spacing:.01em}
+.brand small{display:block;font-weight:500;font-size:12px;color:var(--muted);letter-spacing:.02em}
+.tg{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 12px;font-family:var(--f-disp);font-weight:600;font-size:13px;cursor:pointer}
+.tg[aria-pressed="false"]{color:var(--muted);text-decoration:line-through}
+.tg.warn{border-color:var(--stop);color:var(--stop)}
+
+/* setup */
+.lead{color:var(--muted);margin:6px 0 18px;max-width:62ch}
+.progs{display:grid;gap:10px}
+.prog{display:grid;grid-template-columns:1fr auto;gap:2px 12px;text-align:left;border:1px solid var(--line);background:var(--panel);border-radius:var(--r);padding:14px 16px;cursor:pointer}
+.prog .pn{font-family:var(--f-disp);font-weight:700;font-size:19px}
+.prog .pw{grid-column:1/2;color:var(--muted);font-size:13.5px}
+.prog .pt{grid-row:1/3;grid-column:2;align-self:center;font-family:var(--f-num);font-size:14px;color:var(--muted)}
+.prog[aria-pressed="true"]{border-color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg)}
+.opts{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.opts .ol{font-size:13px;color:var(--muted);margin-right:4px}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 14px;font-family:var(--f-num);font-size:14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.ov{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.ov li{display:grid;grid-template-columns:1fr auto;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.ov .on{min-width:0}
+.ov .od{font-family:var(--f-num);color:var(--muted);font-size:13.5px;white-space:nowrap}
+.ov .os{display:block;font-size:12.5px;color:var(--muted)}
+.big{display:block;width:100%;min-height:60px;border:0;border-radius:var(--r);background:var(--fg);color:var(--bg);font-family:var(--f-disp);font-weight:700;font-size:20px;letter-spacing:.02em;cursor:pointer;margin-top:20px}
+.fine{font-size:13px;color:var(--muted);margin-top:10px}
+
+/* run */
+.where{display:flex;justify-content:space-between;gap:12px;font-family:var(--f-disp);font-weight:600;font-size:14px;color:var(--muted);margin:4px 0 8px}
+.where span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stage{position:relative;z-index:0;background:var(--panel);border:1.5px solid var(--m);border-radius:20px;padding:16px 16px 18px;min-width:0}
+.stage::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:var(--m);opacity:.12;border-radius:18px;z-index:-1;pointer-events:none}
+.mode{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pill{background:var(--m);color:var(--on);font-family:var(--f-disp);font-weight:700;font-size:13px;letter-spacing:.09em;text-transform:uppercase;padding:5px 10px;border-radius:7px}
+.paused{font-family:var(--f-disp);font-weight:700;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--stop);border:1.5px solid var(--stop);padding:4px 9px;border-radius:7px}
+.stitle{font-size:clamp(24px,6.6vw,32px);font-weight:700;line-height:1.12;margin:12px 0 4px}
+.clock{font-family:var(--f-num);font-weight:700;font-size:clamp(88px,30vw,170px);line-height:.95;letter-spacing:-.04em;margin:6px 0 2px}
+.clock.wait{font-family:var(--f-disp);font-size:clamp(46px,14vw,80px);letter-spacing:.02em;line-height:1.05;color:var(--m)}
+.sub{font-family:var(--f-num);font-size:13px;color:var(--muted);min-height:1.4em}
+.bar{height:8px;border-radius:99px;background:var(--panel2);overflow:hidden;margin:10px 0 14px}
+.bar i{display:block;height:100%;width:0;background:var(--m);border-radius:99px}
+.targets{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px}
+.tgt{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 10px;min-width:0}
+.tgt .tl{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-family:var(--f-disp);font-weight:600}
+.tgt .tv{font-family:var(--f-num);font-weight:700;font-size:20px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tgt .tv small{font-size:12px;font-weight:500;color:var(--muted);margin-left:4px}
+.tach{grid-column:1/-1}
+.track{position:relative;height:12px;border-radius:99px;background:var(--panel2);overflow:hidden;margin-top:6px}
+.track .band{position:absolute;top:0;bottom:0;background:var(--m);border-radius:99px}
+.track .red{position:absolute;top:0;bottom:0;right:0;background:repeating-linear-gradient(135deg,var(--red) 0 3px,transparent 3px 6px);opacity:.75}
+.nums{position:relative;height:16px;margin-top:3px;font-family:var(--f-num);font-size:11px;color:var(--muted)}
+.nums b{position:absolute;top:0;font-weight:500;transform:translateX(-50%)}
+.nums b:first-child{transform:none}.nums b:last-child{transform:translateX(-100%)}
+.instr{margin:14px 0 0;font-size:16px;line-height:1.5;max-width:62ch}
+.next{display:flex;gap:10px;align-items:baseline;justify-content:space-between;padding:12px 4px 0;color:var(--muted);font-size:14px}
+.next b{color:var(--fg);font-family:var(--f-disp);font-weight:600;font-size:16px}
+.next .nt{min-width:0}
+.next .nn{font-family:var(--f-num);white-space:nowrap}
+.controls{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:8px;margin-top:14px}
+.controls2{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.controls2 .btn{flex:1 1 30%}
+.btn{min-height:58px;border:1px solid var(--line);background:var(--panel);border-radius:var(--r);font-family:var(--f-disp);font-weight:700;font-size:18px;cursor:pointer;padding:0 10px}
+.btn.primary{background:var(--m);border-color:var(--m);color:var(--on);font-size:20px}
+.btn.jam{border-color:var(--stop);color:var(--stop)}
+.btn:disabled{opacity:.4;cursor:default}
+.status{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:13px;color:var(--muted)}
+.status .bad{color:var(--stop)}
+.status button{border:1px solid var(--stop);color:var(--stop);background:transparent;border-radius:999px;padding:3px 10px;font-size:13px;cursor:pointer}
+
+/* timeline */
+.sec{border-top:1px solid var(--line)}
+.sec:last-child{border-bottom:1px solid var(--line)}
+.sh{display:grid;grid-template-columns:14px 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:12px 2px;cursor:pointer}
+.sh .st{width:10px;height:10px;border-radius:50%;border:2px solid var(--muted)}
+.sec.done .sh .st{background:var(--muted)}
+.sec.cur .sh .st{border-color:var(--fg);background:var(--fg)}
+.sec.done .sh .sn{color:var(--muted)}
+.sh .sn{font-family:var(--f-disp);font-weight:600;font-size:16px;min-width:0}
+.sh .sd{font-family:var(--f-num);font-size:13px;color:var(--muted);white-space:nowrap}
+.rows{list-style:none;margin:0 0 10px;padding:0 0 0 24px}
+.row{display:grid;grid-template-columns:8px 1fr auto;gap:10px;align-items:center;padding:7px 4px;border-radius:8px;cursor:pointer}
+.row .d{width:8px;height:8px;border-radius:2px;background:var(--m)}
+.row .rt{min-width:0;font-size:14px}
+.row .rd{font-family:var(--f-num);font-size:12.5px;color:var(--muted);white-space:nowrap}
+.row.done{opacity:.5}
+.row.cur{background:var(--panel2);outline:1.5px solid var(--m)}
+.row .go{grid-column:2/4;justify-self:start;border:1px solid var(--fg);background:var(--fg);color:var(--bg);border-radius:8px;padding:5px 12px;font-family:var(--f-disp);font-weight:600;cursor:pointer}
+
+/* log */
+.quick{display:flex;flex-wrap:wrap;gap:6px}
+.quick button{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 12px;font-size:13.5px;cursor:pointer}
+.noteform{display:flex;gap:6px;margin-top:8px}
+.noteform input{flex:1;min-width:0;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:10px 12px;font:inherit;color:var(--fg)}
+.noteform button{border:1px solid var(--fg);background:var(--fg);color:var(--bg);border-radius:10px;padding:0 14px;font-family:var(--f-disp);font-weight:600;cursor:pointer}
+.log{list-style:none;margin:10px 0 0;padding:0}
+.log li{display:grid;grid-template-columns:auto 1fr auto;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.log .lt{font-family:var(--f-num);font-size:13px;color:var(--muted)}
+.log .lx{min-width:0}
+.log .lx small{display:block;color:var(--muted);font-size:12px}
+.log .del{background:none;border:0;color:var(--muted);font-size:18px;cursor:pointer;padding:0 4px}
+.empty{color:var(--muted);font-size:13.5px;margin:8px 0 0}
+.end{margin-top:26px;width:100%;min-height:48px;border:1px solid var(--line);background:transparent;border-radius:var(--r);color:var(--muted);font-family:var(--f-disp);font-weight:600;font-size:15px;cursor:pointer}
+.end.arm{border-color:var(--stop);color:var(--stop)}
+
+/* overlays */
+.ovl{position:fixed;top:0;right:0;bottom:0;left:0;z-index:20;background:var(--bg);overflow:auto;padding-inline:16px;padding-block:calc(env(safe-area-inset-top,0px) + 16px) calc(env(safe-area-inset-bottom,0px) + 24px)}
+.ovl .wrap{display:flex;flex-direction:column;gap:12px}
+.ovl .eyebrow{font-family:var(--f-disp);font-weight:700;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--m)}
+.jamclock{font-family:var(--f-num);font-weight:700;font-size:clamp(88px,30vw,170px);line-height:1;letter-spacing:-.04em}
+.zones{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.zones li{display:grid;grid-template-columns:76px 1fr;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--muted)}
+.zones li b{font-family:var(--f-num);font-weight:700}
+.zones li.on{border:1.5px solid var(--m);color:var(--fg);background:var(--panel2)}
+.sig{list-style:none;margin:0;padding:0}
+.sig li{padding:12px 0;border-bottom:1px solid var(--line);font-size:16px}
+.sig li b{font-family:var(--f-disp)}
+.donebox dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:14px 0 0}
+.donebox dt{color:var(--muted)}
+.donebox dd{margin:0;font-family:var(--f-num)}
+
+/* landscape: car head unit (1280x720) and phone turned sideways */
+@media (orientation:landscape) and (min-width:640px){
+  .wrap{max-width:1240px}
+  .top{padding-block:6px}
+  .runmain{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;align-items:start}
+  .side{display:flex;flex-direction:column;gap:10px}
+  .side .next{order:-1;padding:0;flex-direction:column;align-items:flex-start;gap:2px;font-size:15px}
+  .side .next b{font-size:20px}
+  .side .nn{font-size:15px}
+  .controls{margin-top:0;grid-template-columns:1fr 1fr}
+  .controls #bMain{grid-column:1/-1;order:-1;min-height:76px;font-size:24px}
+  .controls2{margin-top:0}
+  .btn{min-height:64px;font-size:19px}
+  .clock{font-size:clamp(72px,24vh,190px)}
+  .clock.wait{font-size:clamp(40px,10vh,84px)}
+  .stitle{font-size:clamp(22px,4.4vh,34px);margin-top:8px}
+  .instr{font-size:15px;margin-top:10px}
+  .targets{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
+  #setup .progs{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .jamclock{font-size:clamp(72px,26vh,190px)}
+  .ovl .wrap{max-width:760px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .bar i{transition:width .25s linear}
+  .clock.wait{animation:breathe 2.4s ease-in-out infinite}
+  @keyframes breathe{50%{opacity:.55}}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">Обкатка Focus 1.6<small>Duratec · АКПП 4F27E · NURAL +0,5</small></div>
+    <button class="tg" id="tSound" aria-pressed="true">Звук</button>
+    <button class="tg" id="tVoice" aria-pressed="true">Голос</button>
+    <button class="tg warn" id="tSig">Стоп-сигналы</button>
+  </header>
+
+  <!-- SETUP -->
+  <section id="setup">
+    <p class="lead">Выберите программу и нажмите «Старт». Каждая смена режима объявляется сигналом и голосом, за 10 секунд звучит предупреждение. Держите страницу открытой.</p>
+    <div class="progs" id="progs"></div>
+    <div class="opts" id="opts"></div>
+    <h2>Состав программы</h2>
+    <ul class="ov" id="overview"></ul>
+    <button class="big" id="bStart">Старт</button>
+    <p class="fine">Шаги без таймера (проверки, остановки) ждут вашего «Готово». Пробки — кнопка «Пробка»: программа встаёт на паузу, а таймер стоянки подскажет, когда перевести селектор в N и когда глушить.</p>
+  </section>
+
+  <!-- RUN -->
+  <section id="run" hidden>
+    <div class="where"><span id="secName"></span><span id="stepNo" class="num"></span></div>
+    <div class="runmain">
+    <div class="stage">
+      <div class="mode"><span class="pill" id="modeLbl"></span><span class="paused" id="pausedLbl" hidden>Пауза</span></div>
+      <h1 class="stitle" id="stepTitle"></h1>
+      <div class="clock" id="clock">0:00</div>
+      <div class="sub" id="clockSub"></div>
+      <div class="bar"><i id="barFill"></i></div>
+      <div class="targets" id="targets"></div>
+      <p class="instr" id="instr"></p>
+    </div>
+    <div class="side">
+    <div class="next" id="next"></div>
+    <div class="controls">
+      <button class="btn" id="bBack">Назад</button>
+      <button class="btn primary" id="bMain">Пауза</button>
+      <button class="btn" id="bNext">Далее</button>
+    </div>
+    <div class="controls2">
+      <button class="btn" id="bAlt" hidden></button>
+      <button class="btn" id="bPlus">+1 мин</button>
+      <button class="btn jam" id="bJam">Пробка</button>
+    </div>
+    <div class="status" id="status"></div>
+    </div>
+    </div>
+
+    <h2>Программа</h2>
+    <div id="timeline"></div>
+
+    <h2>Журнал</h2>
+    <div class="quick" id="quick"></div>
+    <form class="noteform" id="noteForm">
+      <input id="noteInput" type="text" placeholder="Своя отметка, например «пробег 152 км»" autocomplete="off">
+      <button type="submit">Добавить</button>
+    </form>
+    <ul class="log" id="log"></ul>
+    <button class="end" id="bEnd">Завершить программу</button>
+  </section>
+
+  <!-- DONE -->
+  <section id="done" hidden>
+    <div class="donebox">
+      <h2>Программа завершена</h2>
+      <h1 id="doneTitle" style="font-size:28px"></h1>
+      <dl id="doneStats"></dl>
+      <h2>Журнал</h2>
+      <ul class="log" id="doneLog"></ul>
+      <button class="big" id="bNew">Новая программа</button>
+    </div>
+  </section>
+</div>
+
+<!-- traffic jam -->
+<div class="ovl" id="jam" hidden>
+  <div class="wrap">
+    <span class="eyebrow">Пробка · программа на паузе</span>
+    <div class="jamclock" id="jamClock">0:00</div>
+    <ul class="zones" id="zones">
+      <li data-z="0"><b>0–3</b><span>Светофор. Нормально, стоим в D.</span></li>
+      <li data-z="1"><b>3–5</b><span>Если затянется больше 5 минут — селектор в N.</span></li>
+      <li data-z="2"><b>5–15</b><span>Селектор в N. После пробки — 2–3 разгона на ½ педали.</span></li>
+      <li data-z="3"><b>15+</b><span>Долго на холостых. Объехать или заглушить.</span></li>
+    </ul>
+    <button class="btn primary" id="bJamEnd" style="min-height:68px">Поехали</button>
+  </div>
+</div>
+
+<!-- stop signals -->
+<div class="ovl m-stop" id="sig" hidden>
+  <div class="wrap">
+    <span class="eyebrow">Остановиться и искать причину</span>
+    <h1 style="font-size:28px">Стоп-сигналы</h1>
+    <ul class="sig">
+      <li><b>Лампа давления масла</b> горит или мигает — заглушить сразу</li>
+      <li><b>Стук</b>, который растёт вместе с оборотами</li>
+      <li><b>Стрелка температуры</b> выше обычного положения</li>
+      <li><b>Антифриз уходит</b>, эмульсия под крышкой маслозаливной горловины</li>
+      <li><b>Белый дым</b> с запахом антифриза</li>
+      <li><b>Сизый дым</b> не проходит после 50 км</li>
+      <li><b>Подтёк антифриза</b> у новой помпы</li>
+      <li><b>Троение</b>, мотор работает неровно</li>
+      <li><b>Пинки или пробуксовка</b> АКПП</li>
+    </ul>
+    <button class="btn" id="bSigClose">Закрыть</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (s) => document.querySelector(s);
+  const KEY = "obkatka-focus-v1";
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  /* ---------- program data ---------- */
+  const MODES = {
+    calm: "Спокойно", vary: "Переменно", load: "Нагрузка", brake: "Торможение двигателем",
+    stop: "Остановка", check: "Проверка", crank: "Стартер", pause: "Пауза стартера"
+  };
+  const S = (mode, title, dur, o) => Object.assign({ mode, title, dur }, o || {});
+
+  function progFirstStart() {
+    const st = []; let sec = "Подготовка";
+    const add = (s) => { s.section = sec; st.push(s); };
+    add(S("check", "Перед прокачкой", null, { say: "Подготовка к прокачке масла",
+      text: "Свечи выкручены. Топливо и искра отключены: предохранитель или реле бензонасоса, разъём катушки. Масло по верхней метке щупа. Аккумулятор заряжен." }));
+    sec = "Прокачка масла";
+    for (let i = 1; i <= 4; i++) {
+      add(S("crank", "Стартер · серия " + i, 15, { say: "Серия " + i + ". Крути стартер",
+        text: "Крути стартером и смотри на лампу давления масла. Насос новый и сухой, давление появится не сразу." }));
+      add(S("pause", "Пауза стартеру", 45, { say: "Отпусти. Пауза",
+        text: "Стартер остывает. Лампа ещё горит — будет следующая серия." }));
+    }
+    add(S("check", "Лампа давления погасла?", null, { say: "Лампа давления погасла?",
+      text: "Погасла — нажми «Готово», будет контрольная серия. Горит — повтори серию.",
+      alt: { label: "Горит — ещё серия", go: -2 } }));
+    add(S("crank", "Контрольная серия", 15, { say: "Контрольная серия",
+      text: "Ещё 10–15 секунд после погасания лампы, чтобы масло дошло до всех вкладышей." }));
+    add(S("check", "Свечи на место", null, { say: "Свечи на место, всё подключить",
+      text: "Свечи 15 Нм. Подключить катушку, форсунки или бензонасос. Запуск — сразу после прокачки." }));
+    sec = "Пуск и прогрев";
+    add(S("load", "Пуск", 10, { tach: [1500, 2000], say: "Пуск. Сразу полторы — две тысячи",
+      text: "Держать 1500–2000, не давать стоять на 800. Лампа масла гаснет за 2–3 секунды. Не погасла — глушить немедленно." }));
+    for (let i = 1; i <= 5; i++) {
+      add(S("vary", "Прогрев · " + i + " из 5", 120, { tach: [1500, 2000], say: "Полторы — две тысячи",
+        text: "Слушать: стук пальцев должен уйти, ремень не свистит. Смотреть подтёки и стрелку температуры. Сизый дымок в первые минуты — норма." }));
+      add(S("vary", "Прогрев · обороты выше", 60, { tach: [2000, 2500], say: "Две — две с половиной тысячи",
+        text: "Обороты чуть выше. Мотор не должен стоять на одних оборотах." }));
+    }
+    add(S("check", "Ждём вентилятор", null, { tach: [1500, 2000], say: "Держи обороты до включения вентилятора",
+      text: "Термостат открылся, вентилятор включился — нажми «Готово» и глуши. Долго на холостых не гонять." }));
+    sec = "Завершение";
+    add(S("stop", "Заглушить и осмотреть", null, { say: "Глуши. Осмотр",
+      text: "Подтёки масла и антифриза, отдельно зона помпы. Уточнить: масляный зазор вкладышей, осевой люфт, крышки шатунов 8 Нм + 90°, делали ли прокачку. Машина остаётся на ночь." }));
+    return st;
+  }
+
+  function hwBlock(add, label, extra) {
+    const t = extra ? " " + extra : "";
+    add(S("calm", label + " · 70–75 км/ч", 300, { speed: "70–75", pedal: [0, 0.33], sel: "D",
+      say: "Семьдесят — семьдесят пять", text: "Ровно, без круиза." + t }));
+    add(S("load", "Плавный разгон до 90", 30, { speed: "75 → 90", pedal: [0.25, 0.5], sel: "D",
+      say: "Плавный разгон до девяноста. Без кикдауна", text: "Педаль не больше половины, не в пол." }));
+    add(S("vary", label + " · 85–90 км/ч", 270, { speed: "85–90", pedal: [0, 0.5], sel: "D",
+      say: "Восемьдесят пять — девяносто", text: "Фуры не обгонять с педалью в пол." + t }));
+    add(S("brake", "Накат до 75", 30, { speed: "90 → 75", pedal: [0, 0], sel: "D",
+      say: "Отпусти газ. Накатом до семидесяти пяти", text: "Газ отпущен, скорость падает сама." }));
+    add(S("vary", label + " · 75–80 км/ч", 270, { speed: "75–80", pedal: [0, 0.4], sel: "D",
+      say: "Семьдесят пять — восемьдесят", text: "Скорость меняется — так и нужно." + t }));
+  }
+  function stopTrio(add, label, firstText) {
+    add(S("stop", "Остановка", null, { say: "Остановись в безопасном месте",
+      text: firstText || "Найди безопасное место и остановись. Подтверди, когда стоишь." }));
+    add(S("stop", "Осмотр, ждём 5 минут", 300, { say: "Пять минут. Осмотр",
+      text: "Обойди машину: подтёки под мотором, зона помпы, запах. Масло тем временем стекает в поддон." }));
+    add(S("check", "Уровень масла · " + label, null, { say: "Проверь уровень масла",
+      text: "Ниже середины — долить до нормы, не переливать. Доливку отметить в журнале. Всё сухо — едем." }));
+  }
+
+  function progDrive(o) {
+    const st = []; let sec = "У сервиса";
+    const add = (s) => { s.section = sec; st.push(s); };
+    const n = 8;
+    add(S("check", "Проверка на холодном", null, { say: "Проверка на холодном",
+      text: "Масло по щупу: после первого пуска уровень падает — долить до нормы. Антифриз в бачке. Под машину с фонарём, отдельно зона помпы. Хомуты, ремни, разъёмы." }));
+    add(S("calm", "Пуск, стоим", 90, { tach: [700, 900], sel: "P", say: "Пуск. Полторы минуты стоим, не газуем",
+      text: "Пристегнуться, навигатор, телефон в держатель. Подсказки звучат голосом, смотреть на экран не нужно." }));
+    sec = "Первые 30 минут";
+    add(S("calm", "Первые 1–2 км", 180, { tach: [1500, 2500], pedal: [0, 0.25], sel: "D", say: "Первые километры спокойно",
+      text: "Греются мотор и масло в коробке. Без резких разгонов." }));
+    add(S("vary", "Переменная езда", 300, { tach: [1500, 3000], pedal: [0.25, 0.5], sel: "D", say: "Переменная езда. Обороты меняются",
+      text: "Обороты всё время меняются. Без круиза и натяга. Встал в пробку — кнопка «Пробка»." }));
+    add(S("vary", "Переменная езда", 300, { tach: [1500, 3000], pedal: [0.25, 0.5], sel: "D", say: "Продолжаем. Меняй обороты",
+      text: "Обороты всё время меняются. Без круиза и натяга." }));
+    add(S("check", "Свободный участок, селектор «2»", null, { say: "Найди свободный участок. Селектор во вторую",
+      text: "Участок без светофоров, сзади никого. Селектор в «2». Подтверди, когда готов." }));
+    sec = "Циклы в «2»";
+    for (let i = 1; i <= n; i++) {
+      add(S("load", "Разгон " + i + " из " + n, 20, { tach: [1800, 3500], pedal: [0.5, 0.67], sel: "2", say: "Разгон. Половина педали",
+        text: "С ~1800 до 3000–3500 об/мин." }));
+      add(S("brake", "Сброс газа " + i + " из " + n, 15, { tach: [1800, 3500], pedal: [0, 0], sel: "2", say: "Отпусти газ",
+        text: "Торможение двигателем, обороты падают сами." }));
+      add(S("calm", "Спокойно " + i + " из " + n, 90, { tach: [1500, 2500], pedal: [0, 0.25], sel: "2", say: "Спокойно",
+        text: "Полторы минуты спокойной езды перед следующим разгоном." }));
+    }
+    add(S("calm", "Селектор в D", 30, { sel: "D", say: "Селектор в драйв", text: "Циклы закончены, дальше обычная езда." }));
+    sec = "Осмотр у Чебоксар";
+    stopTrio(add, "первый осмотр", "Найди безопасное место и остановись. Течь или стук — назад в сервис, он рядом.");
+    sec = "Трасса на Йошкар-Олу";
+    for (let i = 0; i < 4; i++) hwBlock(add, "Трасса");
+    sec = "Остановка, ~100 км";
+    stopTrio(add, "~100 км");
+    for (let h = 1; h <= o.laps; h++) {
+      sec = "Круги до Кокшайского кольца" + (o.laps > 1 ? " · час " + h : "");
+      for (let i = 0; i < 4; i++) hwBlock(add, "Круги", "На кольцах и въездах: разгон на ½ педали до 3000–3500, затем отпустить газ.");
+      sec = "Остановка после кругов" + (o.laps > 1 ? " · час " + h : "");
+      stopTrio(add, "после кругов" + (o.laps > 1 ? ", час " + h : ""));
+    }
+    sec = "Обратно в Чебоксары";
+    for (let i = 0; i < 4; i++) hwBlock(add, "Обратно");
+    sec = "Финиш";
+    add(S("check", "Дома", null, { say: "Программа почти закончена",
+      text: "Перед остановкой 1–2 минуты спокойной езды. Завтра на холодном: масло, антифриз, подтёки. Записать пробег за день." }));
+    return st;
+  }
+
+  function progDaily(o) {
+    const st = []; let sec = "Старт";
+    const add = (s) => { s.section = sec; st.push(s); };
+    add(S("calm", "Пуск", 60, { tach: [700, 900], sel: "P", say: "Пуск. Минута, и трогаемся",
+      text: "Не прогревать на месте дольше 1–2 минут." }));
+    add(S("calm", "До прогрева", 300, { tach: [1500, 2500], pedal: [0, 0.5], sel: "D", say: "До прогрева спокойно",
+      text: "Пока стрелка температуры не поднялась — без нагрузки, педаль до половины." }));
+    sec = "Езда";
+    const blocks = Math.max(1, Math.round((o.min - 6) / 10));
+    for (let b = 1; b <= blocks; b++) {
+      add(S("vary", "Переменная езда", 270, { tach: [1500, 3000], pedal: [0.25, 0.5], sel: "D", say: "Переменная езда",
+        text: "Обороты меняются. Без круиза, без натяга. Пробка — кнопка «Пробка»." }));
+      add(S("load", "Разгон", 20, { tach: [1800, 3500], pedal: [0.5, 0.5], sel: "2 или D", say: "Разгон, половина педали. Без кикдауна",
+        text: "Где безопасно. В D — без кикдауна." }));
+      add(S("brake", "Сброс газа", 15, { tach: [1800, 3500], pedal: [0, 0], sel: "2 или D", say: "Отпусти газ",
+        text: "Торможение двигателем." }));
+      add(S("vary", "Переменная езда", 295, { tach: [1500, 3000], pedal: [0.25, 0.5], sel: "D", say: "Переменная езда",
+        text: "Обороты меняются. Кикдаун — не раньше 300–500 км." }));
+    }
+    sec = "Финиш";
+    add(S("check", "Финиш", null, { say: "Поездка закончена",
+      text: "Уровень масла — каждые 100–150 км. Записать пробег и доливы. Замена масла с фильтром — на 800–1000 км." }));
+    return st;
+  }
+
+  const PROGRAMS = {
+    start: { name: "Первый пуск", where: "В сервисе: прокачка масла и прогрев", build: progFirstStart, opt: null },
+    drive: { name: "Первая поездка", where: "Чебоксары → Йошкар-Ола → круги → обратно", build: progDrive,
+      opt: { key: "laps", label: "Круги, часов", values: [1, 2, 3] } },
+    daily: { name: "Поездка 0–700 км", where: "Выходные и работа после первой поездки", build: progDaily,
+      opt: { key: "min", label: "Длительность, мин", values: [30, 60, 90, 120] } }
+  };
+
+  /* ---------- state ---------- */
+  const defaults = { screen: "setup", prog: "drive", opts: { laps: 1, min: 60 }, idx: 0, stepStart: 0, pausedAt: null,
+    extra: 0, started: 0, finished: 0, warned: -1, jam: null, notes: [], sound: true, voice: true, open: {}, pick: -1 };
+  let st = Object.assign({}, defaults);
+  try { const raw = localStorage.getItem(KEY); if (raw) st = Object.assign({}, defaults, JSON.parse(raw)); } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+  let steps = [];
+  const build = () => { steps = PROGRAMS[st.prog].build(st.opts); };
+  const now = () => Date.now();
+  const cur = () => steps[st.idx];
+
+  /* ---------- formatting ---------- */
+  const pad = (n) => String(n).padStart(2, "0");
+  const fmtClock = (ms) => { const s = Math.max(0, Math.ceil(ms / 1000)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60;
+    return h ? h + ":" + pad(m) + ":" + pad(x) : m + ":" + pad(x); };
+  const fmtDur = (sec) => { const m = Math.round(sec / 60); if (m < 60) return m + " мин"; const h = Math.floor(m / 60), r = m % 60; return h + " ч" + (r ? " " + r + " мин" : ""); };
+  const fmtStep = (sec) => sec == null ? "вручную" : sec < 60 ? sec + " с" : sec % 60 ? Math.floor(sec / 60) + ":" + pad(sec % 60) : sec / 60 + " мин";
+  const hhmm = (t) => { const d = new Date(t); return pad(d.getHours()) + ":" + pad(d.getMinutes()); };
+  const FR = { 0: "0", 0.25: "¼", 0.33: "⅓", 0.4: "0,4", 0.5: "½", 0.67: "⅔", 1: "пол" };
+  const fr = (x) => FR[x] != null ? FR[x] : String(x);
+  const pedalTxt = (p) => p[1] === 0 ? "отпущена" : p[0] === 0 ? "до " + fr(p[1]) : p[0] === p[1] ? fr(p[0]) : fr(p[0]) + "–" + fr(p[1]);
+  const rpmTxt = (t) => t[0] === t[1] ? String(t[0]) : t[0] + "–" + t[1];
+
+  /* ---------- audio, voice, vibration, wake lock ---------- */
+  let ac = null;
+  function unlockAudio() {
+    /* iOS 16.4+: play signals even when the ring/silent switch is on */
+    try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {}
+    try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === "suspended") ac.resume(); } catch (e) {}
+    renderStatus();
+  }
+  function tone(f, t0, d, g) {
+    if (!ac || !st.sound || ac.state !== "running") return;
+    try {
+      const o = ac.createOscillator(), v = ac.createGain(), t = ac.currentTime + t0;
+      o.type = "sine"; o.frequency.value = f;
+      v.gain.setValueAtTime(0.0001, t); v.gain.exponentialRampToValueAtTime(g || 0.2, t + 0.02); v.gain.exponentialRampToValueAtTime(0.0001, t + d);
+      o.connect(v); v.connect(ac.destination); o.start(t); o.stop(t + d + 0.05);
+    } catch (e) {}
+  }
+  const CH = { load: [660, 990], crank: [660, 990], brake: [880, 560], stop: [520, 520, 520], check: [740, 740], pause: [600, 450] };
+  const chime = (mode) => (CH[mode] || [620, 830]).forEach((f, i) => tone(f, i * 0.18, 0.24));
+  const pips = () => [0, 0.32, 0.64].forEach((t) => tone(1000, t, 0.1, 0.14));
+  let ruVoice = null;
+  function pickVoice() { try { const v = speechSynthesis.getVoices(); ruVoice = v.find((x) => /^ru/i.test(x.lang)) || null; } catch (e) {} }
+  if ("speechSynthesis" in window) { pickVoice(); try { speechSynthesis.onvoiceschanged = pickVoice; } catch (e) {} }
+  function speak(t) {
+    if (!st.voice || !("speechSynthesis" in window) || !t) return;
+    try {
+      speechSynthesis.cancel();
+      setTimeout(() => { try { const u = new SpeechSynthesisUtterance(t); u.lang = "ru-RU"; if (ruVoice) u.voice = ruVoice; u.rate = 1; u.volume = 1; speechSynthesis.speak(u); } catch (e) {} }, 60);
+    } catch (e) {}
+  }
+  const buzz = (p) => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
+  function announce(s, prefix) {
+    if (!s) return;
+    chime(s.mode); buzz([220, 90, 220]);
+    setTimeout(() => speak((prefix || "") + (s.say || s.title)), 420);
+  }
+  let wl = null;
+  async function lockScreen() {
+    try { if ("wakeLock" in navigator && !wl) { wl = await navigator.wakeLock.request("screen"); wl.addEventListener("release", () => { wl = null; renderStatus(); }); } } catch (e) { wl = null; }
+    renderStatus();
+  }
+
+  /* ---------- engine ---------- */
+  function remMs() {
+    const s = cur(); if (!s || s.dur == null) return null;
+    const ref = st.pausedAt != null ? st.pausedAt : now();
+    return s.dur * 1000 + st.extra - (ref - st.stepStart);
+  }
+  function goTo(i, opts) {
+    if (i >= steps.length) { finish(); return; }
+    st.idx = Math.max(0, i); st.stepStart = now(); st.extra = 0; st.warned = -1; st.pick = -1;
+    if (st.pausedAt != null) st.pausedAt = st.stepStart;
+    save(); renderStep(); if (!(opts && opts.silent)) announce(cur());
+  }
+  function finish() {
+    st.screen = "done"; st.finished = now(); st.pausedAt = null; st.jam = null; save();
+    speak("Программа завершена"); chime("check"); show();
+  }
+  function tick() {
+    if (st.screen !== "run") return;
+    if (st.jam) { renderJam(); return; }
+    let changed = false, s = cur();
+    while (s && s.dur != null && st.pausedAt == null && st.idx < steps.length - 1) {
+      const r = remMs(); if (r > 0) break;
+      const end = st.stepStart + s.dur * 1000 + st.extra;
+      st.idx++; st.stepStart = end; st.extra = 0; st.warned = -1; changed = true; s = cur();
+    }
+    if (changed) { st.pick = -1; save(); renderStep(); announce(cur()); }
+    const r = remMs(), c = cur();
+    if (r != null && st.pausedAt == null && c.dur >= 40 && r <= 10000 && r > 0 && st.warned !== st.idx) {
+      st.warned = st.idx; save();
+      const nx = steps[st.idx + 1]; pips(); buzz([80, 60, 80]);
+      if (nx) setTimeout(() => speak("Через десять секунд: " + (nx.say || nx.title)), 900);
+    }
+    renderClock();
+  }
+
+  /* ---------- render: setup ---------- */
+  function sections() {
+    const out = [];
+    steps.forEach((s, i) => {
+      let L = out[out.length - 1];
+      if (!L || L.name !== s.section) { L = { name: s.section, from: i, to: i, dur: 0, manual: 0, n: 0 }; out.push(L); }
+      L.to = i; L.n++; if (s.dur) L.dur += s.dur; else L.manual++;
+    });
+    return out;
+  }
+  const total = () => steps.reduce((a, s) => a + (s.dur || 0), 0);
+
+  function renderSetup() {
+    $("#progs").innerHTML = Object.entries(PROGRAMS).map(([k, p]) => {
+      const t = fmtDur(p.build(st.opts).reduce((a, s) => a + (s.dur || 0), 0));
+      return '<button class="prog" data-prog="' + k + '" aria-pressed="' + (st.prog === k) + '"><span class="pn">' + esc(p.name) +
+        '</span><span class="pw">' + esc(p.where) + '</span><span class="pt">≈ ' + t + "</span></button>";
+    }).join("");
+    const o = PROGRAMS[st.prog].opt;
+    $("#opts").innerHTML = o ? '<span class="ol">' + esc(o.label) + "</span>" + o.values.map((v) =>
+      '<button class="chip" data-opt="' + v + '" aria-pressed="' + (st.opts[o.key] === v) + '">' + v + "</button>").join("") : "";
+    $("#opts").hidden = !o;
+    $("#overview").innerHTML = sections().map((S) =>
+      '<li><span class="on">' + esc(S.name) + '<span class="os">' + S.n + " " + plural(S.n, "шаг", "шага", "шагов") +
+      (S.manual ? " · " + S.manual + " с подтверждением" : "") + '</span></span><span class="od">' + (S.dur ? fmtDur(S.dur) : "вручную") + "</span></li>").join("") +
+      '<li><span class="on"><b>Итого по таймеру</b></span><span class="od"><b>' + fmtDur(total()) + "</b></span></li>";
+  }
+  const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? b : c; };
+
+  /* ---------- render: run ---------- */
+  function renderStep() {
+    const s = cur(); if (!s) return;
+    $("#run").className = "m-" + s.mode;
+    $("#secName").textContent = s.section;
+    $("#stepNo").textContent = "шаг " + (st.idx + 1) + " / " + steps.length;
+    $("#modeLbl").textContent = MODES[s.mode];
+    $("#stepTitle").textContent = s.title;
+    $("#instr").textContent = s.text || "";
+    let h = "";
+    if (s.tach) {
+      const max = 7000, lo = s.tach[0] / max * 100, hi = s.tach[1] / max * 100;
+      let nums = ""; for (let k = 0; k <= 7; k++) nums += '<b style="left:' + (k / 7 * 100) + '%">' + k + "</b>";
+      h += '<div class="tgt tach"><div class="tl">Обороты, об/мин</div><div class="tv">' + rpmTxt(s.tach) +
+        '</div><div class="track"><div class="red" style="left:' + (6250 / max * 100) + '%"></div><div class="band" style="left:' + lo +
+        "%;width:" + Math.max(hi - lo, 1.5) + '%"></div></div><div class="nums">' + nums + "</div></div>";
+    }
+    if (s.speed) h += '<div class="tgt"><div class="tl">Скорость</div><div class="tv">' + esc(s.speed) + "<small>км/ч</small></div></div>";
+    if (s.pedal) h += '<div class="tgt"><div class="tl">Педаль газа</div><div class="tv">' + esc(pedalTxt(s.pedal)) + "</div></div>";
+    if (s.sel) h += '<div class="tgt"><div class="tl">Селектор</div><div class="tv">' + esc(s.sel) + "</div></div>";
+    $("#targets").innerHTML = h; $("#targets").hidden = !h;
+    const manual = s.dur == null;
+    $("#bMain").textContent = manual ? "Готово" : st.pausedAt != null ? "Продолжить" : "Пауза";
+    $("#bPlus").hidden = manual;
+    $("#bBack").disabled = st.idx === 0;
+    $("#bNext").textContent = st.idx === steps.length - 1 ? "Финиш" : "Далее";
+    if (s.alt) { $("#bAlt").hidden = false; $("#bAlt").textContent = s.alt.label; } else $("#bAlt").hidden = true;
+    $("#pausedLbl").hidden = !(st.pausedAt != null && !manual && !st.jam);
+    renderTimeline(); renderClock(); renderStatus();
+  }
+  function renderClock() {
+    const s = cur(); if (!s) return;
+    const clock = $("#clock"), sub = $("#clockSub"), bar = $("#barFill");
+    if (s.dur == null) {
+      clock.className = "clock wait"; clock.textContent = "Ждёт «Готово»";
+      sub.textContent = "на шаге " + fmtClock((st.pausedAt != null ? st.pausedAt : now()) - st.stepStart);
+      bar.style.width = "0%";
+    } else {
+      const r = remMs(), totalMs = s.dur * 1000 + st.extra;
+      clock.className = "clock"; clock.textContent = fmtClock(r);
+      sub.textContent = "из " + fmtClock(totalMs) + (st.extra ? " (+" + st.extra / 60000 + " мин)" : "");
+      bar.style.width = Math.min(100, Math.max(0, (1 - r / totalMs) * 100)).toFixed(2) + "%";
+    }
+    const nx = steps[st.idx + 1];
+    $("#next").innerHTML = nx
+      ? '<span class="nt">Дальше: <b>' + esc(nx.title) + '</b></span><span class="nn">' + (s.dur != null ? "через " + fmtClock(remMs()) : fmtStep(nx.dur)) + "</span>"
+      : '<span class="nt">Последний шаг</span>';
+    renderStatusTime();
+  }
+  function renderStatusTime() {
+    const el = $("#eta"); if (!el) return;
+    let rest = 0; const r = remMs(); if (r != null) rest += Math.max(0, r);
+    for (let i = st.idx + 1; i < steps.length; i++) rest += (steps[i].dur || 0) * 1000;
+    el.textContent = "Конец по таймеру ≈ " + hhmm(now() + rest);
+  }
+  function renderStatus() {
+    if (st.screen !== "run") return;
+    const lock = wl ? "Экран не гаснет" : '<span class="bad">Экран может погаснуть — отключите автоблокировку</span>';
+    const snd = (st.sound || st.voice) && (!ac || ac.state !== "running") ? '<button id="bUnlock">Включить звук</button>' : "";
+    $("#status").innerHTML = "<span>" + lock + '</span><span id="eta"></span>' + snd;
+    const b = $("#bUnlock"); if (b) b.onclick = () => { unlockAudio(); speak("Звук включён"); };
+    renderStatusTime();
+  }
+  function renderTimeline() {
+    const secs = sections(), ci = st.idx;
+    $("#timeline").innerHTML = secs.map((S) => {
+      const state = ci > S.to ? "done" : ci >= S.from ? "cur" : "todo";
+      const open = st.open[S.name] != null ? st.open[S.name] : state === "cur";
+      let rows = "";
+      if (open) {
+        for (let i = S.from; i <= S.to; i++) {
+          const s = steps[i];
+          rows += '<li class="row m-' + s.mode + (i < ci ? " done" : i === ci ? " cur" : "") + '" data-i="' + i + '"><span class="d"></span><span class="rt">' +
+            esc(s.title) + '</span><span class="rd">' + fmtStep(s.dur) + "</span>" +
+            (st.pick === i && i !== ci ? '<button class="go" data-go="' + i + '">Перейти сюда</button>' : "") + "</li>";
+        }
+      }
+      return '<div class="sec ' + state + '"><button class="sh" data-sec="' + esc(S.name) + '" aria-expanded="' + open + '"><span class="st"></span><span class="sn">' +
+        esc(S.name) + '</span><span class="sd">' + (S.dur ? fmtDur(S.dur) : "вручную") + "</span></button>" + (open ? '<ul class="rows">' + rows + "</ul>" : "") + "</div>";
+    }).join("");
+  }
+  function renderLog(target) {
+    const el = $(target), list = st.notes.slice().reverse();
+    el.innerHTML = list.length ? list.map((n, k) => '<li><span class="lt">' + hhmm(n.t) + '</span><span class="lx">' + esc(n.text) +
+      "<small>" + esc(n.step || "") + "</small></span>" + (target === "#log" ? '<button class="del" data-del="' + (st.notes.length - 1 - k) + '" aria-label="Удалить отметку">×</button>' : "<span></span>") + "</li>").join("")
+      : '<li style="display:block;border:0"><p class="empty">Пока пусто. Отмечайте доливку масла, подтёки, пробег — пригодится при замене масла.</p></li>';
+  }
+  function renderJam() {
+    const j = st.jam; if (!j) return;
+    const ms = now() - j.start, min = ms / 60000;
+    $("#jamClock").textContent = fmtClock(ms).replace(/^(\d+:\d\d)$/, "$1");
+    const z = min < 3 ? 0 : min < 5 ? 1 : min < 15 ? 2 : 3;
+    document.querySelectorAll("#zones li").forEach((li) => li.classList.toggle("on", +li.dataset.z === z));
+    $("#jam").className = "ovl " + ["m-calm", "m-vary", "m-load", "m-stop"][z];
+    if (min >= 5 && !j.s5) { j.s5 = true; save(); pips(); buzz([200, 80, 200]); speak("Пять минут. Селектор в нейтраль"); }
+    if (min >= 15 && !j.s15) { j.s15 = true; save(); chime("stop"); buzz([300, 100, 300, 100, 300]); speak("Пятнадцать минут. Объезжай или заглуши"); }
+  }
+
+  /* ---------- screens ---------- */
+  function show() {
+    build();
+    $("#setup").hidden = st.screen !== "setup";
+    $("#run").hidden = st.screen !== "run";
+    $("#done").hidden = st.screen !== "done";
+    $("#jam").hidden = !(st.screen === "run" && st.jam);
+    if (st.screen === "setup") renderSetup();
+    if (st.screen === "run") { renderStep(); renderLog("#log"); if (st.jam) renderJam(); }
+    if (st.screen === "done") {
+      $("#doneTitle").textContent = PROGRAMS[st.prog].name;
+      $("#doneStats").innerHTML = "<dt>Начало</dt><dd>" + hhmm(st.started) + "</dd><dt>Конец</dt><dd>" + hhmm(st.finished) +
+        "</dd><dt>В пути</dt><dd>" + fmtDur((st.finished - st.started) / 1000) + "</dd><dt>Отметок</dt><dd>" + st.notes.length + "</dd>";
+      renderLog("#doneLog");
+    }
+    $("#tSound").setAttribute("aria-pressed", st.sound); $("#tVoice").setAttribute("aria-pressed", st.voice);
+  }
+
+  /* ---------- events ---------- */
+  $("#progs").addEventListener("click", (e) => { const b = e.target.closest("[data-prog]"); if (!b) return; st.prog = b.dataset.prog; save(); show(); });
+  $("#opts").addEventListener("click", (e) => { const b = e.target.closest("[data-opt]"); if (!b) return; st.opts[PROGRAMS[st.prog].opt.key] = +b.dataset.opt; save(); show(); });
+  $("#bStart").addEventListener("click", () => {
+    unlockAudio(); build();
+    Object.assign(st, { screen: "run", idx: 0, stepStart: now(), pausedAt: null, extra: 0, started: now(), finished: 0, warned: -1, jam: null, notes: [], open: {}, pick: -1 });
+    save(); show(); lockScreen(); announce(cur(), "Старт. ");
+  });
+  $("#bMain").addEventListener("click", () => {
+    unlockAudio(); const s = cur();
+    if (s.dur == null) { if (st.idx === steps.length - 1) finish(); else goTo(st.idx + 1); return; }
+    if (st.pausedAt != null) { st.stepStart += now() - st.pausedAt; st.pausedAt = null; speak("Продолжаем"); }
+    else { st.pausedAt = now(); speak("Пауза"); }
+    save(); renderStep();
+  });
+  $("#bNext").addEventListener("click", () => { unlockAudio(); if (st.idx === steps.length - 1) finish(); else goTo(st.idx + 1); });
+  $("#bBack").addEventListener("click", () => { unlockAudio(); goTo(st.idx - 1); });
+  $("#bAlt").addEventListener("click", () => { const s = cur(); if (s.alt) goTo(st.idx + s.alt.go); });
+  $("#bPlus").addEventListener("click", () => { st.extra += 60000; if (remMs() > 10000) st.warned = -1; save(); renderClock(); });
+  $("#bJam").addEventListener("click", () => {
+    unlockAudio();
+    st.jam = { start: now(), wasPaused: st.pausedAt != null, s5: false, s15: false };
+    if (st.pausedAt == null) st.pausedAt = now();
+    save(); $("#jam").hidden = false; renderJam(); speak("Пробка. Время стоянки пошло");
+  });
+  $("#bJamEnd").addEventListener("click", () => {
+    const j = st.jam; if (!j) return; const d = now() - j.start;
+    if (!j.wasPaused) { st.stepStart += now() - st.pausedAt; st.pausedAt = null; }
+    st.jam = null; save(); $("#jam").hidden = true; renderStep();
+    speak(d >= 5 * 60000 ? "Поехали. Два-три разгона на половине педали" : "Поехали");
+  });
+  $("#timeline").addEventListener("click", (e) => {
+    const go = e.target.closest("[data-go]"); if (go) { goTo(+go.dataset.go); return; }
+    const sh = e.target.closest("[data-sec]");
+    if (sh) { const n = sh.dataset.sec, was = sh.getAttribute("aria-expanded") === "true"; st.open[n] = !was; save(); renderTimeline(); return; }
+    const row = e.target.closest("[data-i]");
+    if (row) { const i = +row.dataset.i; st.pick = st.pick === i ? -1 : i; renderTimeline(); }
+  });
+  const QUICK = ["Долил масло", "Подтёк", "Стук", "Температура выше нормы", "Сизый дым", "Пинок АКПП"];
+  $("#quick").innerHTML = QUICK.map((q) => '<button data-q="' + esc(q) + '">' + esc(q) + "</button>").join("");
+  const addNote = (text) => { const s = cur(); st.notes.push({ t: now(), text, step: s ? s.title : "" }); save(); renderLog("#log"); buzz(60); };
+  $("#quick").addEventListener("click", (e) => { const b = e.target.closest("[data-q]"); if (b) addNote(b.dataset.q); });
+  $("#noteForm").addEventListener("submit", (e) => { e.preventDefault(); const v = $("#noteInput").value.trim(); if (!v) return; addNote(v); $("#noteInput").value = ""; });
+  $("#log").addEventListener("click", (e) => { const b = e.target.closest("[data-del]"); if (!b) return; st.notes.splice(+b.dataset.del, 1); save(); renderLog("#log"); });
+  let armT = 0;
+  $("#bEnd").addEventListener("click", () => {
+    const b = $("#bEnd");
+    if (!b.classList.contains("arm")) { b.classList.add("arm"); b.textContent = "Точно завершить? Нажмите ещё раз"; clearTimeout(armT);
+      armT = setTimeout(() => { b.classList.remove("arm"); b.textContent = "Завершить программу"; }, 4000); return; }
+    clearTimeout(armT); b.classList.remove("arm"); b.textContent = "Завершить программу"; finish();
+  });
+  $("#bNew").addEventListener("click", () => { st.screen = "setup"; save(); show(); });
+  $("#tSound").addEventListener("click", () => { st.sound = !st.sound; unlockAudio(); save(); show(); if (st.sound) chime("check"); });
+  $("#tVoice").addEventListener("click", () => { st.voice = !st.voice; unlockAudio(); save(); show(); if (st.voice) speak("Голос включён"); });
+  $("#tSig").addEventListener("click", () => { $("#sig").hidden = false; });
+  $("#bSigClose").addEventListener("click", () => { $("#sig").hidden = true; });
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { if (st.screen === "run") lockScreen(); tick(); } });
+
+  show();
+  if (st.screen === "run") lockScreen();
+  setInterval(tick, 250);
+})();
+</script>
+
+</body>
+</html>
